@@ -1,0 +1,32 @@
+{# Hereda la estructura base.html, lo que asegura uniformidad visual #}
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Título centrado y estilizado -->
+<h2 class="font-effect-shadow-multiple"
+    style="text-align: center; font-family: 'Rancho', cursive; color: #000; font-size: 2.5rem;">
+    Editar asignatura.
+</h2>
+
+<!-- Formulario para editar la categoría existente -->
+<form method="POST" style="max-width: 600px; margin: auto;">
+
+    <!-- Campo de nombre con valor precargado -->
+    <label for="nombre" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" value="{{ categoria.nombre }}" required
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;">
+
+    <!-- Campo de descripción con valor precargado -->
+    <label for="descripcion" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Descripción:</label>
+    <textarea id="descripcion" name="descripcion" rows="4" required
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;">{{ categoria.descripcion }}</textarea>
+
+    <!-- Botón de envío -->
+    <button type="submit"
+        style="background-color: #71d4f1; color: #ffffff; padding: 12px 20px; border: none; border-radius: 8px; font-weight: 700;">
+        Guardar cambios
+    </button>
+</form>
+
+{% endblock %}

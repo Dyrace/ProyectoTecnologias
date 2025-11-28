@@ -1,0 +1,34 @@
+/* Kevin González Gutiérrez. */
+/* Tecnologías Computacionales II. */
+/* 18/06/25 */
+
+/* Estilos para la lista dentro del contenedor principal */
+
+.container ul {
+    list-style: none;         /* Quita los puntos de la lista */
+    padding-left: 0;          /* Quita el padding a la izquierda */
+    margin-top: 20px;         /* Margen superior para separar de otros elementos */
+}
+
+.container ul li {
+    background-color: #2c3e50; /* Fondo azul oscuro para cada ítem de la lista */
+    margin-bottom: 10px;       /* Espacio entre los ítems */
+    border-radius: 5px;        /* Bordes redondeados */
+    transition: background-color 0.3s ease; /* Animación suave al cambiar el fondo */
+}
+
+.container ul li a {
+    color: white;              /* Texto en color blanco */
+    text-decoration: none;     /* Quitar subrayado del enlace */
+    display: block;            /* El enlace ocupa todo el espacio del elemento li */
+    padding: 12px 20px;        /* Espacio interno para que el enlace sea más grande y fácil de clicar */
+    font-weight: bold;         /* Texto en negrita */
+}
+
+.container ul li:hover {
+    background-color: #34495e; /* Cambia el fondo al pasar el mouse para dar efecto hover */
+}
+
+.container ul li a:hover {
+    text-decoration: underline; /* Subraya el texto del enlace al pasar el mouse */
+}

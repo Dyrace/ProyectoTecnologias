@@ -1,0 +1,501 @@
+<!-- Kevin González Gutiérrez. -->
+<!-- Tecnologías Computacionales II. -->
+<!-- 18/06/25 -->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KevzaCursos</title>
+
+    <!-- Fuentes de Google Fonts usadas en la página -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rancho&effect=shadow-multiple" rel="stylesheet">
+
+    <style>
+        /* Reset CSS para eliminar márgenes y paddings por defecto */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos generales del cuerpo */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f2e6;
+            color: #2d3a2d;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Barra de navegación superior (navbar) */
+        nav {
+            background-color: #635ee7; /* color morado */
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+            height: 60px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            position: sticky; /* Fija el navbar en la parte superior al hacer scroll */
+            top: 0;
+            z-index: 100;
+        }
+
+        /* Logo con fuente personalizada y estilos */
+        .logo a {
+            font-family: 'Dancing Script';
+            font-style: normal;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            user-select: none;
+        }
+
+        /* Menú principal: lista horizontal con espacio entre ítems */
+        ul.menu {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            font-weight: 600;
+        }
+
+        /* Ítems del menú principal */
+        ul.menu>li {
+            position: relative; /* necesario para posicionar submenús */
+            padding: 18px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+        }
+
+        /* Efecto hover en ítems del menú principal */
+        ul.menu>li:hover {
+            background-color: #71d4f1; /* verde más claro */
+        }
+
+        /* Enlaces dentro de los ítems del menú principal */
+        ul.menu>li>a {
+            color: #d9ead3;
+            text-decoration: none;
+            font-weight: 600;
+            display: block; /* para que todo el área sea clickeable */
+        }
+
+        /* Subrayado en hover para enlaces del menú */
+        ul.menu>li>a:hover {
+            text-decoration: underline;
+        }
+
+        /* Submenús desplegables */
+        ul.submenu {
+            display: none; /* ocultos por defecto */
+            position: absolute; /* para que aparezcan debajo del menú padre */
+            background-color: #093f91;
+            top: 60px; /* justo debajo del navbar */
+            left: 0;
+            min-width: 180px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 200;
+        }
+
+        /* Ítems del submenú */
+        ul.submenu li {
+            padding: 12px 20px;
+            white-space: nowrap; /* evitar que el texto se rompa */
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover en ítems del submenú */
+        ul.submenu li:hover {
+            background-color: #71d4f1;
+        }
+
+        /* Enlaces dentro de submenús */
+        ul.submenu li a {
+            color: #e1f0e1;
+            text-decoration: none;
+            display: block;
+            font-weight: 500;
+        }
+
+        /* Subrayado al pasar el mouse en enlaces del submenú */
+        ul.submenu li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mostrar submenú cuando se pasa el mouse sobre el ítem padre */
+        ul.menu>li:hover>ul.submenu {
+            display: block;
+        }
+
+        /* Estilos del contenedor principal donde se carga el contenido dinámico */
+        .container {
+            max-width: 960px;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            margin: 40px auto 60px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(36, 84, 36, 0.15);
+            flex-grow: 1; /* para que el contenedor ocupe el espacio vertical restante */
+        }
+
+        /* Estilos para encabezados principales */
+        h1 {
+            color: #093f91;
+            margin-bottom: 25px;
+            font-weight: 700;
+            font-size: 2.4rem;
+            letter-spacing: 1px;
+        }
+
+        /* Listas de enlaces con estilo tipo botón */
+        ul.link-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        ul.link-list li {
+            flex: 1 1 200px; /* tamaño flexible */
+        }
+
+        ul.link-list li a {
+            display: block;
+            background-color: #093f91;
+            color: #e1f0e1;
+            text-align: center;
+            padding: 15px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 3px 6px rgba(36, 84, 36, 0.4);
+        }
+
+        ul.link-list li a:hover {
+            background-color: #093f91;
+            box-shadow: 0 5px 12px rgba(36, 84, 36, 0.6);
+        }
+
+        /* Pie de página con fondo morado y texto blanco */
+        footer {
+            background-color: #635ee7;
+            color: #ffffff;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 0.9rem;
+            user-select: none; /* para evitar selección de texto */
+        }
+
+        /* Responsive: adapta diseño para pantallas pequeñas */
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 25px;
+            }
+
+            ul.menu {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
+            ul.menu>li {
+                padding: 12px 15px;
+            }
+
+            ul.submenu {
+                position: static; /* submenús se muestran dentro del flujo */
+                box-shadow: none;
+                border-radius: 0;
+                background-color: #3a683a;
+            }
+
+            ul.submenu li {
+                padding: 10px 15px;
+            }
+
+            .container {
+                margin: 20px 10px 40px;
+                padding: 25px 20px;
+            }
+
+            ul.link-list li {
+                flex: 1 1 100%;
+            }
+        }
+
+        /* Estilos para botones de acciones */
+        .actions a {
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 3px 7px rgba(36, 84, 36, 0.5);
+            transition: background-color 0.3s ease;
+        }
+
+        /* Botón editar */
+        .actions a.editar {
+            background-color: #529352;
+            color: #e1f0e1;
+            box-shadow: 0 3px 7px rgba(36, 84, 36, 0.5);
+            margin-right: 60px; /* espacio a la derecha */
+        }
+
+        .actions a.editar:hover {
+            background-color: #3a683a;
+        }
+
+        /* Botón eliminar */
+        .actions a.eliminar {
+            background-color: #a33a3a;
+            color: #f1dede;
+            box-shadow: 0 3px 7px rgba(163, 58, 58, 0.5);
+        }
+
+        .actions a.eliminar:hover {
+            background-color: #7a2b2b;
+        }
+
+        /* Estilos para formularios */
+        form label {
+            display: block;
+            margin-top: 20px;
+            font-weight: 600;
+            color: #245424;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="number"],
+        form textarea,
+        form select {
+            width: 100%;
+            padding: 8px 12px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2d3a2d;
+            transition: border-color 0.3s ease;
+        }
+
+        /* Focus en inputs y selects */
+        form input[type="text"]:focus,
+        form input[type="number"]:focus,
+        form textarea:focus,
+        form select:focus {
+            border-color: #529352;
+            outline: none;
+            box-shadow: 0 0 5px #529352aa;
+        }
+
+        /* Botón enviar */
+        form button[type="submit"] {
+            margin-top: 30px;
+            background-color: #245424;
+            color: #e1f0e1;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button[type="submit"]:hover {
+            background-color: #3a683a;
+        }
+
+        /* Submenú que aparece a la izquierda */
+        li.submenu-izquierda > ul.submenu {
+            left: auto;
+            right: 0;
+        }
+
+        /* Colores para el envio de mensajes en inscribir */
+        .flash-message {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 10px;
+        border-left: 6px solid;
+        border-radius: 6px;
+        font-weight: 600;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        }
+
+        .flash-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        }
+
+        .flash-warning {
+        color: #856404;
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+        }
+
+        .flash-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        }
+
+        .flash-info {
+        color: #0c5460;
+        background-color: #d1ecf1;
+        border-color: #bee5eb;
+        }
+
+        /* Submenú de segundo nivel */
+        ul.submenu li ul.submenu {
+            position: absolute;
+            top: 90px;
+            left: 100%;
+            margin-left: 5px;
+            background-color: #0e4d9b;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            z-index: 300;
+        }
+
+        /* Mostrar submenú de segundo nivel al hacer hover */
+        ul.submenu li:hover > ul.submenu {
+            display: block;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <!-- Barra de navegación -->
+    <nav>
+        <div class="logo">
+            <!-- Enlace al home, ruta principal "/" definida en app.py -->
+            <a href="/">KevzaCursos</a>
+        </div>
+
+        <!-- Menú principal con submenús para gestión de cursos, categorías, participantes e inscripciones -->
+        <ul class="menu">
+            <li>
+                <a href="#">Cursos</a>
+                <ul class="submenu">
+                    <!-- Ruta para registrar un nuevo curso -->
+                    <li><a href="/registrar_curso">Registrar curso</a></li>
+                    <!-- Ruta para consultar la lista de cursos -->
+                    <li><a href="/consultar_cursos">Consultar cursos</a></li>
+                    <!-- Sub-submenú de exportación -->
+                    {% if 'usuario' in session %} 
+                    <li>
+                        <a href="#">Exportar</a>
+                        <ul class="submenu">
+                            <li><a href="/exportar_cursos_excel">Exportar a Excel</a></li>
+                            <li><a href="/exportar_cursos_pdf">Exportar a PDF</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </li>
+            <li>
+                <a href="#">Asignaturas</a>
+                <ul class="submenu">
+                    <!-- Ruta para registrar una nueva categoría -->
+                    <li><a href="/registrar_categoria">Registrar asignatura</a></li>
+                    <!-- Ruta para consultar las categorías -->
+                    <li><a href="/consultar_categorias">Consultar asignaturas</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Participantes</a>
+                <ul class="submenu">
+                    <!-- Ruta para registrar un nuevo participante -->
+                    <li><a href="/registrar_participante">Registrar participante</a></li>
+                    <!-- Ruta para consultar participantes -->
+                    <li><a href="/consultar_participantes">Consultar participantes</a></li>
+                    <!-- Sub-submenú de exportación -->
+                    {% if 'usuario' in session %} 
+                    <li>
+                        <a href="#">Exportar</a>
+                        <ul class="submenu">
+                            <li><a href="/exportar_participantes_excel">Exportar a Excel</a></li>
+                            <li><a href="/exportar_participantes_pdf">Exportar a PDF</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </li>
+            <li class="submenu-izquierda">
+                <a href="#">Inscripciones</a>
+                <ul class="submenu">
+                    <!-- Ruta para inscribir un participante a un curso -->
+                    <li><a href="/inscribir">Inscribir participante a curso</a></li>
+                    <!-- Ruta para consultar inscripciones -->
+                    <li><a href="/consultar_inscripciones">Ver inscripciones</a></li>
+                    <!-- Sub-submenú de exportación -->
+                    {% if 'usuario' in session %}
+                    <li>
+                        <a href="#">Exportar</a>
+                        <ul class="submenu">
+                            <li><a href="/exportar_inscripciones_excel">Exportar a Excel</a></li>
+                            <li><a href="/exportar_inscripciones_pdf">Exportar a PDF</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </li>
+            <li>
+                <a href="/dashboard">Dashboard</a>
+            </li>
+            <li>
+                {% if session.get('usuario') %}
+                    <a href="/logout">Cerrar sesión ({{ session['usuario'] }})</a>
+                {% else %}
+                    <a href="/login">Iniciar sesión</a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Contenedor principal para cargar el contenido dinámico desde las vistas -->
+    <main class="container">
+        {% block content %}
+        <!-- Aquí se insertará el contenido específico de cada plantilla hija usando Flask/Jinja -->
+        {% endblock %}
+    </main>
+
+    <!-- Pie de página con información de contacto y redes sociales -->
+    <footer>
+        <p>&copy; KevzaCursos - hecho por Kevin González Gutiérrez</p>
+        <div style="margin-top: 10px; line-height: 1.6;">
+            <p><strong>Facebook:</strong> <a href="https://www.facebook.com/kevza.kevin7/" target="_blank"
+                    style="color: #ffffff; text-decoration: none;">Kevin González</a></p>
+            <p><strong>Instagram:</strong> <a href="https://instagram.com/kevin.kevzaa" target="_blank"
+                    style="color: #ffffff; text-decoration: none;">@kevin.kevzaa</a></p>
+            <p><strong>YouTube:</strong> <a href="https://www.youtube.com/@kevzaagames633" target="_blank"
+                    style="color: #ffffff; text-decoration: none;">KevzaGames</a></p>
+            <p><strong>X (Twitter):</strong> <a href="https://x.com/KevinKevza7" target="_blank"
+                    style="color: #ffffff; text-decoration: none;">@KevinKevza7</a></p>
+            <p><strong>Email:</strong> <a href="mailto:gabriel.gutierritos12@gmail.com"
+                    style="color: #ffffff; text-decoration: none;">gabriel.gutierritos12@gmail.com</a></p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,111 @@
+{# Extiende de la plantilla base.html que contiene el diseño general del sitio #}
+{% extends "base.html" %}
+
+{# Inicia el bloque de contenido principal de esta vista #}
+{% block content %}
+
+<!-- Título principal -->
+<h1 class="font-effect-shadow-multiple" style="text-align: center; font-family: 'Rancho', cursive; color: #000;">
+    Cursos registrados.
+</h1>
+
+<!-- Mensajes flash (errores o confirmaciones) -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message 
+                  {% if category == 'success' %}flash-success
+                  {% elif category == 'warning' %}flash-warning
+                  {% elif category == 'danger' %}flash-danger
+                  {% else %}flash-info
+                  {% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- Formulario para buscar cursos por nombre -->
+<form method="get" style="max-width: 900px; margin: 20px auto; display: flex; justify-content: space-between;">
+    
+    {# Campo de texto para escribir el término de búsqueda. Se mantiene el valor escrito tras el envío con request.args.get() #}
+    <input type="text" name="buscar" placeholder="Buscar curso..." value="{{ request.args.get('buscar', '') }}"
+        style="flex: 1; padding: 5px 15px; border-radius: 6px; border: 1px solid #ccc; margin-right: 10px;">
+    
+    {# Botón de envío del formulario #}
+    <button type="submit"
+        style="background-color: #3a683a; color: white; padding: 10px 15px; border: none; border-radius: 6px; font-weight: bold;">
+        Buscar
+    </button>
+</form>
+
+<!-- Tabla para mostrar los cursos disponibles -->
+<table
+    style="width: 100%; border-collapse: collapse; max-width: 900px; margin: auto; box-shadow: 0 6px 15px rgba(36, 84, 36, 0.15); border-radius: 10px; overflow: hidden;">
+
+    <!-- Cabecera de la tabla -->
+    <thead style="background-color: #e8b00a; color: #e1f0e1;">
+        <tr>
+            <th style="padding: 15px; text-align: left;">Nombre</th>
+            <th style="padding: 15px; text-align: left;">Descripción</th>
+            <th style="padding: 15px; text-align: left;">Asignatura</th>
+            <th style="padding: 15px; text-align: center;">Acciones</th>
+        </tr>
+    </thead>
+
+    <!-- Cuerpo de la tabla que se llena con los datos del backend -->
+    <tbody style="background-color: #ffffff; color: #2d3a2d;">
+        
+        {# Recorre la lista de cursos pasada desde Flask a través del render_template() #}
+        {% for curso in cursos %}
+        <tr style="border-bottom: 1px solid #d9ead3;">
+            <td style="padding: 12px;">{{ curso.nombre }}</td>
+            <td style="padding: 12px;">{{ curso.descripcion }}</td>
+            <td style="padding: 12px;">{{ curso.categoria }}</td>
+            <td style="padding: 12px; text-align: center;">
+                {% if session.get('usuario') %}
+                <div style="display: inline-flex; gap: 10px; justify-content: center;">
+                    
+                    {# Botón que lleva al formulario para editar el curso, usando la función editar_curso de app.py #}
+                    <a href="{{ url_for('editar_curso', id=curso.id_curso) }}" style="
+                        background-color: #529352;
+                        color: #e1f0e1;
+                        padding: 8px 15px;
+                        border-radius: 6px;
+                        font-weight: 600;
+                        text-decoration: none;
+                        box-shadow: 0 3px 7px rgba(36, 84, 36, 0.5);
+                        transition: background-color 0.3s ease;
+                    ">
+                        Editar
+                    </a>
+
+                    {# Botón para eliminar el curso, enlaza con la función eliminar_curso de app.py #}
+                    <a href="{{ url_for('eliminar_curso', id=curso.id_curso) }}" style="
+                        background-color: #a33a3a;
+                        color: #f1dede;
+                        padding: 8px 15px;
+                        border-radius: 6px;
+                        font-weight: 600;
+                        text-decoration: none;
+                        box-shadow: 0 3px 7px rgba(163, 58, 58, 0.5);
+                        transition: background-color 0.3s ease;"
+                        onclick="return confirm('¿Estás seguro de que deseas eliminar este curso?')">
+                        Eliminar
+                    </a>
+                </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        {# Si no hay cursos registrados, muestra este mensaje #}
+        {% else %}
+        <tr>
+            <td colspan="4" style="padding: 20px; text-align: center; color: #529352; font-weight: 600;">
+                No hay cursos registrados.
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión - KevzaCursos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #89f7fe, #66a6ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 40px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            margin-bottom: 10px;
+            animation: bounceIn 1s ease;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .login-container h2 {
+            margin-bottom: 25px;
+            color: #fff;
+            text-shadow: 1px 1px 2px #00000040;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #66a6ff;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #4a90e2;
+            transform: scale(1.03);
+        }
+
+        .flash-message {
+            margin-top: 15px;
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        body {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+    <form class="login-container" method="POST" action="{{ url_for('login') }}">
+        
+        <!-- SVG Ícono animado -->
+        <svg class="logo" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" viewBox="0 0 24 24">
+            <path d="M19 2H9C7.897 2 7 2.897 7 4v1H6C4.897 5 4 5.897 4 7v13a1 1 0 001 1h13c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM6 7h1v9a1 1 0 001 1h9v2H6V7zm11 9H9V4h10v12z"/>
+        </svg>
+
+        <h2>Iniciar Sesión</h2>
+
+        <input type="text" name="usuario" placeholder="Usuario" required>
+        <input type="password" name="password" placeholder="Contraseña" required>
+        <input type="submit" value="Acceder">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-message">
+                    {% for category, message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </form>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>

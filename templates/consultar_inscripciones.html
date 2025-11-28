@@ -1,0 +1,90 @@
+{# Esta plantilla hereda de base.html, reutilizando el diseño principal #}
+{% extends "base.html" %}
+
+{# Inicia el bloque de contenido principal que será insertado en base.html #}
+{% block content %}
+
+<!-- Título principal -->
+<h1 class="font-effect-shadow-multiple" style="text-align: center; font-family: 'Rancho', cursive; color: #000;">
+    Ver inscripciones.
+</h1>
+
+<!-- Tabla que muestra la lista de inscripciones -->
+<table style="width: 100%; border-collapse: collapse; max-width: 900px; margin: auto; 
+              box-shadow: 0 6px 15px rgba(36, 84, 36, 0.15); border-radius: 10px; overflow: hidden;">
+    
+    <!-- Encabezado de la tabla -->
+    <thead style="background-color: #e8b00a; color: #e1f0e1;">
+        <tr>
+            <th style="padding: 15px; text-align: left;">Participante</th>
+            <th style="padding: 15px; text-align: left;">Curso</th>
+            <th style="padding: 15px; text-align: center;">Fecha de Inscripción</th>
+            <th style="padding: 15px; text-align: center;">Acciones</th> <!-- Nueva columna -->
+        </tr>
+    </thead>
+
+    <!-- Cuerpo de la tabla donde se iteran las inscripciones recibidas desde Flask -->
+    <tbody style="background-color: #ffffff; color: #2d3a2d;">
+        
+        {# Se recorre la lista de inscripciones enviada por el backend #}
+        {% for inscripcion in inscripciones %}
+        <tr style="border-bottom: 1px solid #d9ead3;">
+            
+            {# Nombre del participante inscrito (probablemente una cadena ya formateada) #}
+            <td style="padding: 12px;">{{ inscripcion.participante }}</td>
+
+            {# Nombre del curso al que se inscribió #}
+            <td style="padding: 12px;">{{ inscripcion.curso }}</td>
+
+            {# Fecha en la que se realizó la inscripción, formateada como DD/MM/AAAA #}
+            <td style="padding: 12px; text-align: center;">
+                {{ inscripcion.fecha.strftime('%d/%m/%Y') }}</td>
+            
+            <td style="padding: 12px; text-align: center;">
+                {% if session.get('usuario') %}
+                <div style="display: flex; justify-content: center; gap: 20px;">
+                    {# Botón que lleva al formulario para editar la inscripcion, usando la función editar_inscripcion de app.py #}
+                    <a href="{{ url_for('editar_inscripcion', id=inscripcion.id_inscripcion) }}" style="
+                                background-color: #529352;
+                                color: #e1f0e1;
+                                padding: 8px 15px;
+                                border-radius: 6px;
+                                font-weight: 600;
+                                text-decoration: none;
+                                box-shadow: 0 3px 7px rgba(36, 84, 36, 0.5);
+                                transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#3a683a';"
+                        onmouseout="this.style.backgroundColor='#529352';">
+                        Editar
+                    </a>
+                    
+                    {# Botón para eliminar la inscripcion, enlaza con la función eliminar_inscripcion de app.py #}
+                    <a href="{{ url_for('eliminar_inscripcion', id=inscripcion.id_inscripcion) }}" style="
+                                background-color: #a33a3a;
+                                color: #f1dede;
+                                padding: 8px 15px;
+                                border-radius: 6px;
+                                font-weight: 600;
+                                text-decoration: none;
+                                box-shadow: 0 3px 7px rgba(163, 58, 58, 0.5);
+                                transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#7a2b2b';"
+                        onmouseout="this.style.backgroundColor='#a33a3a';"
+                        onclick="return confirm('¿Estás seguro de que deseas eliminar esta inscripción?')">
+                        Eliminar
+                    </a>
+                </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        {# En caso de que no haya inscripciones, se muestra este mensaje #}
+        {% else %}
+        <tr>
+            <td colspan="3" style="padding: 20px; text-align: center; color: #529352; font-weight: 600;">
+                No hay inscripciones registradas.
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

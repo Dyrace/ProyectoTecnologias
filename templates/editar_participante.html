@@ -1,0 +1,67 @@
+{# Hereda la estructura base de la plantilla principal (base.html) #}
+{% extends "base.html" %}
+
+{# Sección de contenido principal de la página #}
+{% block content %}
+
+<!-- Título de la página -->
+<h1 class="font-effect-shadow-multiple" style="text-align: center; font-family: 'Rancho', cursive; color: #000;">
+    Editar participante.
+</h1>
+
+<!-- Formulario para editar los datos de un participante existente -->
+<form method="POST" action="/editar_participante/{{ participante.id_participante }}" style="max-width: 600px; margin: auto;">
+
+    <!-- Campo para editar el nombre del participante -->
+    <label for="nombre" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" value="{{ participante.nombre }}" required
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;"/>
+
+    <!-- Campo para editar el correo electrónico -->
+    <label for="correo" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Correo:</label>
+    <input type="email" id="correo" name="correo" value="{{ participante.correo }}" required
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;"/>
+
+    <!-- Campo para editar el teléfono (opcional) -->
+    <label for="telefono" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Teléfono:</label>
+    <input type="text" id="telefono" name="telefono" value="{{ participante.telefono }}" required
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;"/>
+
+    <!-- Campo para editar la dirección (opcional) -->
+    <label for="direccion" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Dirección:</label>
+    <input type="text" id="direccion" name="direccion" value="{{ participante.direccion }}"
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;"/>
+    
+    <!-- Campo para editar el nombre de usuario -->
+    <label for="usuario" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Usuario:</label>
+    <input type="text" id="usuario" name="usuario" value="{{ participante.usuario }}"
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;" />
+
+    <!-- Campo para cambiar la contraseña -->
+    <label for="password" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Nueva contraseña:</label>
+    <input type="password" id="password" name="password" placeholder="Deja en blanco para no cambiar"
+        style="width: 100%; padding: 10px; margin-bottom: 25px; border: 1.5px solid #71d4f1; border-radius: 6px;" />
+
+    <!-- Campo para editar la edad del participante -->
+    <label for="edad" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Edad:</label>
+    <input type="number" id="edad" name="edad" value="{{ participante.edad }}"
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;"/>
+
+    <!-- Campo para editar el género (texto libre) -->
+    <label for="genero" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Género:</label>
+    <input type="text" id="genero" name="genero" value="{{ participante.genero }}"
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;"/>
+
+    <!-- Campo para editar la ocupación -->
+    <label for="ocupacion" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Ocupación:</label>
+    <input type="text" id="ocupacion" name="ocupacion" value="{{ participante.ocupacion }}"
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;"/>
+
+    <!-- Botón para enviar el formulario y actualizar los datos -->
+    <button type="submit"
+        style="background-color: #71d4f1; color: #ffffff; padding: 12px 20px; border: none; border-radius: 8px; font-weight: 700;">
+        Actualizar
+    </button>
+</form>
+
+{% endblock %}

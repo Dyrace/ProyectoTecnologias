@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Título principal -->
+<h1 class="font-effect-shadow-multiple"
+    style="text-align: center; font-family: 'Rancho', cursive; color: #000; margin-top: 30px;">
+    Registrar asignatura.
+</h1>
+
+<!-- Mostrar error si existe -->
+{% if error %}
+  <div style="
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: #ffecec;
+      border-left: 6px solid #ff6b6b;
+      border-radius: 6px;
+      color: #b20000;
+      font-weight: 600;
+      text-align: center;
+  ">
+    {{ error }}
+  </div>
+{% endif %}
+
+<!-- Formulario de registro -->
+<form action="/registrar_categoria" method="post" style="max-width: 600px; margin: auto; margin-bottom: 60px;">
+
+    <!-- Campo: Nombre -->
+    <label for="nombre" style="display: block; margin-bottom: 8px; font-weight: 600; color: #2e2e2e;">
+        Nombre de la asignatura:
+    </label>
+    <input type="text" id="nombre" name="nombre" required
+        value="{{ nombre|default('') }}"
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px; font-size: 1rem;" />
+
+    <!-- Campo: Descripción -->
+    <label for="descripcion" style="display: block; margin-bottom: 8px; font-weight: 600; color: #2e2e2e;">
+        Descripción:
+    </label>
+    <textarea id="descripcion" name="descripcion" rows="4" required
+        style="width: 100%; padding: 10px; margin-bottom: 30px; border: 1.5px solid #71d4f1; border-radius: 6px; font-size: 1rem;">{{ descripcion|default('') }}</textarea>
+
+    <!-- Botón de envío -->
+    <button type="submit" style="
+        background-color: #635ee7;
+        color: #ffffff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        width: 100%;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(99, 94, 231, 0.3);
+        transition: background-color 0.3s ease;
+    " 
+    onmouseover="this.style.backgroundColor='#534cd8';"
+    onmouseout="this.style.backgroundColor='#635ee7';">
+        Registrar asignatura
+    </button>
+</form>
+{% endblock %}

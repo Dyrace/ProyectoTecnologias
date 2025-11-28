@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Título principal -->
+<h1 class="font-effect-shadow-multiple" 
+    style="text-align: center; font-family: 'Rancho', cursive; color: #000; margin-top: 30px;">
+    Inscribir participante a curso
+</h1>
+
+<!-- Mensajes flash (errores o confirmaciones) -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message 
+                  {% if category == 'success' %}flash-success
+                  {% elif category == 'warning' %}flash-warning
+                  {% elif category == 'danger' %}flash-danger
+                  {% else %}flash-info
+                  {% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- Formulario de inscripción -->
+<form action="/inscribir" method="post" style="max-width: 600px; margin: auto; margin-bottom: 60px;">
+    
+    <!-- Selección de participante -->
+    <label for="participante" 
+        style="display: block; margin-bottom: 8px; font-weight: 600; color: #2e2e2e;">
+        Seleccionar participante:
+    </label>
+    <select id="participante" name="id_participante" required
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px; font-size: 1rem;">
+        <option value="" disabled selected>-- Seleccione un participante --</option>
+        {% for participante in participantes %}
+        <option value="{{ participante.id_participante }}">{{ participante.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- Selección de curso -->
+    <label for="curso" 
+        style="display: block; margin-bottom: 8px; font-weight: 600; color: #2e2e2e;">
+        Seleccionar curso:
+    </label>
+    <select id="curso" name="id_curso" required
+        style="width: 100%; padding: 10px; margin-bottom: 30px; border: 1.5px solid #71d4f1; border-radius: 6px; font-size: 1rem;">
+        <option value="" disabled selected>-- Seleccione un curso --</option>
+        {% for curso in cursos %}
+        <option value="{{ curso.id_curso }}">{{ curso.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- Botón de envío -->
+    <button type="submit"
+        style="background-color: #635ee7; color: #fff; padding: 12px 20px; border: none; border-radius: 8px; font-weight: 700; font-size: 1rem; width: 100%;">
+        Inscribir participante
+    </button>
+</form>
+{% endblock %}

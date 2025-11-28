@@ -1,0 +1,131 @@
+{# Plantilla que hereda de base.html, para mantener diseño uniforme #}
+{% extends "base.html" %}
+
+{# Bloque donde se define el contenido principal de la página #}
+{% block content %}
+
+<!-- Encabezado con estilo decorativo -->
+<h1 class="font-effect-shadow-multiple" style="text-align: center; font-family: 'Rancho', cursive; color: #000;">
+    Participantes registrados.
+</h1>
+
+<!-- Mensajes flash (errores o confirmaciones) -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message 
+                  {% if category == 'success' %}flash-success
+                  {% elif category == 'warning' %}flash-warning
+                  {% elif category == 'danger' %}flash-danger
+                  {% else %}flash-info
+                  {% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- Barra de búsqueda -->
+<form method="get" style="max-width: 900px; margin: 20px auto; display: flex; justify-content: center; gap: 10px;">
+    <input
+        type="text"
+        name="busqueda"
+        placeholder="Buscar participante..."
+        value="{{ request.args.get('busqueda', '') }}"
+        style="padding: 8px 12px; border-radius: 6px; border: 1px solid #ccc; width: 60%;">
+    <button
+        type="submit"
+        style="background-color: #529352; color: white; padding: 8px 15px; border: none; border-radius: 6px; font-weight: 600; box-shadow: 0 3px 7px rgba(36, 84, 36, 0.5); cursor: pointer;">
+        Buscar
+    </button>
+</form>
+
+
+<!-- Contenedor con scroll horizontal para dispositivos pequeños -->
+<div style="overflow-x: auto; max-width: 100%; margin: auto;">
+
+    <!-- Tabla con los datos de los participantes -->
+    <table style="width: 100%; border-collapse: collapse; min-width: 1000px; background-color: #fff;
+                  box-shadow: 0 6px 15px rgba(36, 84, 36, 0.15); border-radius: 10px; overflow: hidden;">
+        
+        <!-- Encabezados de la tabla -->
+        <thead style="background-color: #e8b00a; color: #e1f0e1;">
+            <tr>
+                <th style="padding: 15px; text-align: left;">Nombre</th>
+                <th style="padding: 15px; text-align: left;">Correo electrónico</th>
+                <th style="padding: 15px; text-align: center;">Teléfono</th>
+                <th style="padding: 15px; text-align: center;">Edad</th>
+                <th style="padding: 15px; text-align: center;">Género</th>
+                <th style="padding: 15px; text-align: center;">Ocupación</th>
+                <th style="padding: 15px; text-align: center;">Fecha de registro</th>
+                <th style="padding: 15px; text-align: center;">Acciones</th>
+            </tr>
+        </thead>
+
+        <!-- Cuerpo de la tabla, con iteración sobre los datos recibidos -->
+        <tbody style="color: #2d3a2d;">
+            {% for participante in participantes %}
+            <tr style="border-bottom: 1px solid #d9ead3;">
+
+                {# Campos mostrados: si algún valor es None, se muestra "—" #}
+                <td style="padding: 12px;">{{ participante.nombre }}</td>
+                <td style="padding: 12px;">{{ participante.correo }}</td>
+                <td style="padding: 12px; text-align: center;">{{ participante.telefono or '—' }}</td>
+                <td style="padding: 12px; text-align: center;">{{ participante.edad or '—' }}</td>
+                <td style="padding: 12px; text-align: center;">{{ participante.genero or '—' }}</td>
+                <td style="padding: 12px; text-align: center;">{{ participante.ocupacion or '—' }}</td>
+                <td style="padding: 12px; text-align: center;">{{ participante.fecha_registro or '—' }}</td>
+
+                <!-- Acciones: Editar y Eliminar -->
+                <td style="padding: 12px; text-align: center;">
+                    {% if session.get('usuario') %}
+                    <div style="display: flex; justify-content: center; gap: 20px;">
+
+                        {# Botón para editar participante, usando su ID #}
+                        <a href="{{ url_for('editar_participante', id=participante.id_participante) }}" style="
+                            background-color: #529352;
+                            color: #e1f0e1;
+                            padding: 8px 15px;
+                            border-radius: 6px;
+                            font-weight: 600;
+                            text-decoration: none;
+                            box-shadow: 0 3px 7px rgba(36, 84, 36, 0.5);
+                            transition: background-color 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='#3a683a';"
+                            onmouseout="this.style.backgroundColor='#529352';">
+                            Editar
+                        </a>
+
+                        {# Botón para eliminar, con confirmación #}
+                        <a href="{{ url_for('eliminar_participante', id=participante.id_participante) }}" style="
+                            background-color: #a33a3a;
+                            color: #f1dede;
+                            padding: 8px 15px;
+                            border-radius: 6px;
+                            font-weight: 600;
+                            text-decoration: none;
+                            box-shadow: 0 3px 7px rgba(163, 58, 58, 0.5);
+                            transition: background-color 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='#7a2b2b';"
+                            onmouseout="this.style.backgroundColor='#a33a3a';"
+                            onclick="return confirm('¿Estás seguro de que deseas eliminar este participante?')">
+                            Eliminar
+                        </a>
+                    </div>
+                    {% endif %}
+                </td>
+            </tr>
+
+            {# Si no hay participantes, se muestra este mensaje #}
+            {% else %}
+            <tr>
+                <td colspan="8" style="padding: 20px; text-align: center; color: #529352; font-weight: 600;">
+                    No hay participantes registrados.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

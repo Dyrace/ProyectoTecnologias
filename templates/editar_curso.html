@@ -1,0 +1,49 @@
+{# Hereda la plantilla base.html que contiene la estructura común del sitio #}
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Título de la página -->
+<h1 class="font-effect-shadow-multiple"
+    style="text-align: center; font-family: 'Rancho', cursive; color: #000;">
+    Editar curso.
+</h1>
+
+<!-- Formulario para editar curso existente -->
+<form action="/editar_curso/{{ curso['id_curso'] }}" method="post" style="max-width: 600px; margin: auto;">
+
+    <!-- Campo para el nombre del curso -->
+    <label for="nombre" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Nombre del curso:</label>
+    <input type="text" id="nombre" name="nombre" value="{{ curso['nombre'] }}" required
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;" />
+
+    <!-- Campo para la descripción del curso -->
+    <label for="descripcion" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Descripción:</label>
+    <textarea id="descripcion" name="descripcion" rows="4" required
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;">{{ curso['descripcion'] }}</textarea>
+
+    <!-- Campo para la duración del curso -->
+    <label for="duracion" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Duración (en horas):</label>
+    <input type="number" id="duracion" name="duracion" value="{{ curso['duracion'] }}" required
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;" />
+
+    <!-- Campo desplegable para seleccionar la categoría del curso -->
+    <label for="categoria" style="display: block; margin-bottom: 8px; font-weight: 600; color: #000000;">Categoría:</label>
+    <select id="categoria" name="categoria" required
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px;">
+        {% for categoria in categorias %}
+            <option value="{{ categoria['id_categoria'] }}"
+                {% if categoria['id_categoria'] == curso['id_categoria'] %}selected{% endif %}>
+                {{ categoria['nombre'] }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <!-- Botón para enviar el formulario -->
+    <button type="submit"
+        style="background-color: #71d4f1; color: #ffffff; padding: 12px 20px; border: none; border-radius: 8px; font-weight: 700;">
+        Guardar cambios
+    </button>
+</form>
+
+{% endblock %}

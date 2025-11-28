@@ -1,0 +1,103 @@
+{# Hereda la estructura base #}
+{% extends "base.html" %}
+
+{# Bloque adicional en el head para cargar fuentes personalizadas #}
+{% block head %}
+  {{ super() }}
+  <!-- Google Fonts: Poppins y Dancing Script para estilos tipográficos personalizados -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+  <!-- Contenedor principal con estilos de presentación -->
+  <div style="
+      max-width: 600px;
+      margin: 15px auto;
+      padding: 40px 35px;
+      background-color: #f4f6fb;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(99, 103, 210, 0.15);
+      font-family: 'Poppins', sans-serif;
+      color: #2e2e55;
+      text-align: center;
+  ">
+    <!-- Título de bienvenida con combinación de fuentes -->
+    <h1 style="
+        font-weight: 700;
+        font-size: 2.8rem;
+        margin-bottom: 25px;
+        color: #3f3d56;
+    ">
+      Bienvenido a <span style="font-family: 'Dancing Script', cursive; font-style: normal; color: #635ee7;">KevzaCursos</span>
+    </h1>
+
+    <!-- Descripción introductoria del sistema -->
+    <p style="
+        font-size: 1.2rem;
+        line-height: 1.7;
+        color: #565674;
+        margin-bottom: 45px;
+    ">
+      KevzaCursos es un sistema integral para la gestión de cursos, participantes e inscripciones.<br>
+      Utilice el menú superior para navegar entre las diferentes opciones y administrar su información fácilmente.
+    </p>
+
+    <!-- Botón para ir directamente a la consulta de cursos -->
+    <a href="{{ url_for('consultar_cursos') }}" style="
+        display: inline-block;
+        background: linear-gradient(135deg, #7b5cff 0%, #635ee7 100%);
+        color: #fff;
+        padding: 14px 40px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1.15rem;
+        text-decoration: none;
+        box-shadow: 0 6px 20px rgba(99, 94, 231, 0.4);
+        transition: background 0.3s ease;
+    " 
+    onmouseover="this.style.background = 'linear-gradient(135deg, #635ee7 0%, #7b5cff 100%)';" 
+    onmouseout="this.style.background = 'linear-gradient(135deg, #7b5cff 0%, #635ee7 100%)';">
+      Ver cursos
+    </a>
+
+    <!-- Instrucciones para usuarios nuevos -->
+    <h2 style="margin-top: 60px; font-size: 1.8rem; color: #3f3d56;">¿Nuevo en KevzaCursos?</h2>
+    <ol style="margin-top: 20px; color: #565674; text-align: left;">
+        <p>1️⃣ Registra una categoría para tu curso.</p>
+        <p>2️⃣ Crea tu curso y asígnale una categoría.</p>
+        <p>3️⃣ Registra participantes y asígnalos a los cursos.</p>
+        <p>¡Listo! Ya puedes consultar toda la información desde el menú.</p>
+    </ol>
+
+    <!-- Sección de cursos destacados -->
+    <h2 style="margin-top: 60px; font-size: 1.8rem; color: #3f3d56;">Cursos destacados</h2>
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 20px;">
+        <!-- Curso 1 -->
+        <div style="background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(99, 94, 231, 0.1); max-width: 280px;">
+            <h3 style="color: #635ee7;">Programación en Python.</h3>
+            <p style="color: #565674;">Inicia el 20 de julio · 4 semanas</p>
+        </div>
+        <!-- Curso 2 -->
+        <div style="background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(99, 94, 231, 0.1); max-width: 280px;">
+            <h3 style="color: #635ee7;">Desarrollo web con JavaScript.</h3>
+            <p style="color: #565674;">Inicia el 22 de julio · 3 semanas</p>
+        </div>
+        <!-- Curso 3 -->
+        <div style="background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(99, 94, 231, 0.1); max-width: 280px;">
+            <h3 style="color: #635ee7;">Redes de Computadoras I.</h3>
+            <p style="color: #565674;">Inicia el 23 de julio · 5 semanas</p>
+        </div>
+        <!-- Curso 4 -->
+        <div style="background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(99, 94, 231, 0.1); max-width: 280px;">
+            <h3 style="color: #635ee7;">Modelado y Animación 3D.</h3>
+            <p style="color: #565674;">Inicia el 25 de julio · 6 semanas</p>
+        </div>
+    </div>
+
+    <!-- Sección de contacto para ideas y sugerencias -->
+    <h2 style="margin-top: 60px; font-size: 1.8rem; color: #3f3d56;">¿Tienes ideas o sugerencias?</h2>
+    <p style="color: #565674; margin-top: 10px;">
+        Envíame un correo a: <strong>gabriel.gutierritos12@gmail.com</strong> o déjame tus comentarios en mis redes sociales.
+    </p>
+  </div>
+{% endblock %}

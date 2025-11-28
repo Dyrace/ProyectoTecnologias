@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Título principal -->
+<h1 class="font-effect-shadow-multiple"
+    style="text-align: center; font-family: 'Rancho', cursive; color: #000; margin-top: 30px;">
+    Registrar curso.
+</h1>
+
+<!-- Mostrar mensaje de error si lo hay -->
+{% if error %}
+  <div style="
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: #ffecec;
+      border-left: 6px solid #ff6b6b;
+      border-radius: 6px;
+      color: #b20000;
+      font-weight: 600;
+      text-align: center;
+  ">
+    {{ error }}
+  </div>
+{% endif %}
+
+<!-- Formulario de registro -->
+<form action="/registrar_curso" method="post" style="max-width: 600px; margin: auto; margin-bottom: 60px;">
+
+    <!-- Campo: Nombre del curso -->
+    <label for="nombre" style="display: block; margin-bottom: 8px; font-weight: 600; color: #2e2e2e;">
+        Nombre del curso:
+    </label>
+    <input type="text" id="nombre" name="nombre" required value="{{ nombre|default('') }}"
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px; font-size: 1rem;" />
+
+    <!-- Campo: Descripción -->
+    <label for="descripcion" style="display: block; margin-bottom: 8px; font-weight: 600; color: #2e2e2e;">
+        Descripción:
+    </label>
+    <textarea id="descripcion" name="descripcion" rows="4" required
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px; font-size: 1rem;">{{ descripcion|default('') }}</textarea>
+
+    <!-- Campo: Duración -->
+    <label for="duracion" style="display: block; margin-bottom: 8px; font-weight: 600; color: #2e2e2e;">
+        Duración (en horas):
+    </label>
+    <input type="text" id="duracion" name="duracion" value="{{ duracion|default('') }}"
+        style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1.5px solid #71d4f1; border-radius: 6px; font-size: 1rem;" />
+
+    <!-- Campo: Categoría -->
+    <label for="categoria" style="display: block; margin-bottom: 8px; font-weight: 600; color: #2e2e2e;">
+        Asignatura:
+    </label>
+    <select id="categoria" name="categoria" required
+        style="width: 100%; padding: 10px; margin-bottom: 25px; border: 1.5px solid #71d4f1; border-radius: 6px; font-size: 1rem;">
+        <option value="" disabled selected>Seleccione una asignatura</option>
+        {% for categoria in categorias %}
+        <option value="{{ categoria.id_categoria }}"
+            {% if categoria_seleccionada and categoria_seleccionada == categoria.id_categoria|string %} selected {% endif %}>
+            {{ categoria.nombre }}
+        </option>
+        {% endfor %}
+    </select>
+
+    <!-- Botón de envío -->
+    <button type="submit" style="
+        background-color: #635ee7;
+        color: #ffffff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        width: 100%;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(99, 94, 231, 0.3);
+        transition: background-color 0.3s ease;
+    " onmouseover="this.style.backgroundColor='#534cd8';"
+      onmouseout="this.style.backgroundColor='#635ee7';">
+        Registrar curso
+    </button>
+</form>
+{% endblock %}

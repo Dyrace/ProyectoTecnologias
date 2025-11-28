@@ -1,0 +1,98 @@
+{# Extiende la plantilla base.html para mantener coherencia en el diseño general del sitio #}
+{% extends "base.html" %}
+
+{# Define el bloque de contenido que será insertado dentro de base.html #}
+{% block content %}
+
+<!-- Título principal -->
+<h1 class="font-effect-shadow-multiple" style="text-align: center; font-family: 'Rancho', cursive; color: #000;">
+    Asignaturas registradas.
+</h1>
+
+<!-- Mensajes flash (errores o confirmaciones) -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message 
+                  {% if category == 'success' %}flash-success
+                  {% elif category == 'warning' %}flash-warning
+                  {% elif category == 'danger' %}flash-danger
+                  {% else %}flash-info
+                  {% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- Formulario para ordenar las categorías al seleccionar una opción -->
+<form method="get" style="max-width: 900px; margin: 20px auto; display: flex; justify-content: flex-end;">
+    <label for="orden" style="margin-right: 10px; font-weight: 600; color: #000000;">Ordenar por:</label>
+
+    {# Select con dos opciones para ordenar por nombre ascendente o descendente #}
+    <select name="orden" id="orden" onchange="this.form.submit()" style="padding: 6px 10px; border-radius: 6px;">
+        <option value="nombre_asc" {% if orden == 'nombre_asc' %}selected{% endif %}>Nombre (A-Z)</option>
+        <option value="nombre_desc" {% if orden == 'nombre_desc' %}selected{% endif %}>Nombre (Z-A)</option>
+    </select>
+</form>
+
+<!-- Tabla que muestra las categorías registradas -->
+<table
+    style="width: 100%; border-collapse: collapse; max-width: 900px; margin: auto; box-shadow: 0 6px 15px rgba(36, 84, 36, 0.15); border-radius: 10px; overflow: hidden;">
+
+    <!-- Encabezados de la tabla -->
+    <thead style="background-color: #e8b00a; color: #e1f0e1;">
+        <tr>
+            <th style="padding: 15px; text-align: left;">Nombre</th>
+            <th style="padding: 15px; text-align: left;">Descripción</th>
+            <th style="padding: 15px; text-align: center;">Acciones</th>
+        </tr>
+    </thead>
+
+    <!-- Cuerpo de la tabla con datos de las categorías -->
+    <tbody style="background-color: #ffffff; color: #2d3a2d;">
+
+        {# Bucle for que recorre la lista de categorías enviada desde Flask #}
+        {% for categoria in categorias %}
+        <tr style="border-bottom: 1px solid #d9ead3;">
+            <td style="padding: 12px;">{{ categoria.nombre }}</td>
+            <td style="padding: 12px;">{{ categoria.descripcion }}</td>
+            <td style="padding: 12px; text-align: center;">
+                {% if session.get('usuario') %}
+                <div style="display: flex; justify-content: center; gap: 20px;">
+                    
+                    <!-- Botón para editar la categoría, enlaza a la función editar_categoria del app.py -->
+                    <a href="{{ url_for('editar_categoria', id=categoria.id_categoria) }}" style="background-color: #529352; color: #e1f0e1; padding: 8px 15px; border-radius: 6px; font-weight: 600; text-decoration: none; box-shadow: 0 3px 7px rgba(36, 84, 36, 0.5); transition: background-color 0.3s ease;"
+                        onmouseover="this.style.backgroundColor='#3a683a';" onmouseout="this.style.backgroundColor='#529352';">
+                        Editar
+                    </a>
+
+                    <!-- Botón para eliminar la categoría, con confirmación -->
+                    <a href="{{ url_for('eliminar_categoria', id=categoria.id_categoria) }}" style="background-color: #a33a3a;
+                              color: #f1dede;
+                              padding: 8px 15px;
+                              border-radius: 6px;
+                              font-weight: 600;
+                              text-decoration: none;
+                              box-shadow: 0 3px 7px rgba(163, 58, 58, 0.5);
+                              transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#7a2b2b';"
+                        onmouseout="this.style.backgroundColor='#a33a3a';"
+                        onclick="return confirm('¿Estás seguro de que deseas eliminar esta categoría?')">
+                        Eliminar
+                    </a>
+                </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        {# Si no hay categorías, se muestra este mensaje alternativo #}
+        {% else %}
+        <tr>
+            <td colspan="3" style="padding: 20px; text-align: center; color: #529352; font-weight: 600;">
+                No hay categorías registradas.
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

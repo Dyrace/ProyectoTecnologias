@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Título principal -->
+<h1 class="font-effect-shadow-multiple" style="text-align: center; font-family: 'Rancho', cursive; color: #000;">
+    Panel de estadísticas.
+</h1>
+
+<!-- Totales -->
+<div style="display: flex; justify-content: space-around; margin-top: 30px;">
+    <div style="background-color: #f0fff4; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; width: 250px;">
+        <h3>Total de cursos.</h3>
+        <p style="font-size: 36px; font-weight: bold; color: #2f7a2f;">{{ total_cursos }}</p>
+    </div>
+    <div style="background-color: #f0f4ff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; width: 250px;">
+        <h3>Total de participantes.</h3>
+        <p style="font-size: 36px; font-weight: bold; color: #1a3a8a;">{{ total_participantes }}</p>
+    </div>
+</div>
+
+<!-- Gráfica de barras: Cursos con más inscripciones -->
+<div style="max-width: 700px; margin: 40px auto;">
+    <h3 style="text-align: center; font-family: 'Rancho', normal; color: #000;">Cursos con más inscripciones.</h3>
+    <canvas id="graficaCursos"></canvas>
+</div>
+
+<!-- Gráfico de pastel: Distribución por categoría -->
+<div style="max-width: 600px; margin: 40px auto;">
+    <h3 style="text-align: center; font-family: 'Rancho', normal; color: #000;">Distribución de participantes por asignatura.</h3>
+    <canvas id="graficaCategorias"></canvas>
+</div>
+
+<!-- Gráfico de línea: Inscripciones mensuales -->
+<div style="max-width: 800px; margin: 40px auto;">
+    <h3 style="text-align: center; font-family: 'Rancho', normal; color: #000;">Inscripciones por mes.</h3>
+    <canvas id="graficaInscripciones"></canvas>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Datos cursos populares (barras)
+    const etiquetasCursos = {{ cursos_populares | map(attribute='nombre') | list | tojson }};
+    const datosCursos = {{ cursos_populares | map(attribute='total_inscritos') | list | tojson }};
+
+    new Chart(document.getElementById('graficaCursos'), {
+        type: 'bar',
+        data: {
+            labels: etiquetasCursos,
+            datasets: [{
+                label: 'Inscripciones',
+                data: datosCursos,
+                backgroundColor: '#3a683a'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            },
+            plugins: {
+                legend: { display: true }
+            }
+        }
+    });
+
+    // Datos distribución categorías (pastel)
+    const categorias = {{ distribucion_categorias | map(attribute='categoria') | list | tojson }};
+    const inscritosCategorias = {{ distribucion_categorias | map(attribute='inscritos') | list | tojson }};
+    const coloresCategorias = [
+        '#4dc9f6', '#f67019', '#f53794', '#537bc4', '#acc236', '#166a8f', '#00a950', '#58595b'
+    ];
+
+    new Chart(document.getElementById('graficaCategorias'), {
+        type: 'pie',
+        data: {
+            labels: categorias,
+            datasets: [{
+                data: inscritosCategorias,
+                backgroundColor: coloresCategorias,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+
+    // Datos inscripciones mensuales (línea)
+    const meses = {{ inscripciones_mensuales | map(attribute='mes') | list | tojson }};
+    const totalesMes = {{ inscripciones_mensuales | map(attribute='total') | list | tojson }};
+
+    new Chart(document.getElementById('graficaInscripciones'), {
+        type: 'line',
+        data: {
+            labels: meses,
+            datasets: [{
+                label: 'Inscripciones',
+                data: totalesMes,
+                fill: false,
+                borderColor: '#1e88e5',
+                backgroundColor: '#1e88e5',
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            },
+            plugins: {
+                legend: { display: true }
+            }
+        }
+    });
+</script>
+
+{% endblock %}

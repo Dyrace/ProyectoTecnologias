@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="text-align: center; font-family: 'Rancho', cursive; color: #000;">Editar inscripción.</h2>
+
+<form method="POST" style="max-width: 600px; margin: auto; padding: 20px; box-shadow: 0 6px 15px rgba(36, 84, 36, 0.15); border-radius: 10px; background-color: white;">
+    
+    <label for="id_participante" style="font-weight: 600;">Participante:</label>
+    <select name="id_participante" id="id_participante" required style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc;">
+        {% for participante in participantes %}
+            <option value="{{ participante.id_participante }}"
+                {% if participante.id_participante == inscripcion.id_participante %} selected {% endif %}>
+                {{ participante.nombre }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="id_curso" style="font-weight: 600;">Curso:</label>
+    <select name="id_curso" id="id_curso" required style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc;">
+        {% for curso in cursos %}
+            <option value="{{ curso.id_curso }}"
+                {% if curso.id_curso == inscripcion.id_curso %} selected {% endif %}>
+                {{ curso.nombre }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label for="fecha" style="font-weight: 600;">Fecha de inscripción:</label>
+    <input type="date" id="fecha" name="fecha" required 
+           value="{{ inscripcion.fecha.strftime('%Y-%m-%d') }}" 
+           style="width: 100%; padding: 8px; margin-bottom: 20px; border-radius: 6px; border: 1px solid #ccc;">
+
+    <div style="text-align: center;">
+        <button type="submit" style="
+            background-color: #529352;
+            color: #e1f0e1;
+            padding: 10px 25px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 3px 7px rgba(36, 84, 36, 0.5);
+            transition: background-color 0.3s ease;">
+            Guardar cambios
+        </button>
+    </div>
+</form>
+
+{% endblock %}
