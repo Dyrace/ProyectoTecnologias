@@ -1,10 +1,7 @@
-# Kevin González Gutiérrez.
-# Tecnologías Computacionales II.
-# 18/06/25
 
-# Configuración de la conexión a la base de datos.
+import os
 
-DB_HOST = 'localhost'          # Dirección del servidor de la base de datos.
-DB_USER = 'root'               # Usuario para conectarse a la base de datos.
-DB_PASSWORD = '@Kevzakevinas7' # Contraseña del usuario de la base de datos.
-DB_NAME = 'kevzacursos'        # Nombre de la base de datos a utilizar.
+DB_HOST = os.getenv('DB_HOST')          
+DB_USER = os.getenv('DB_USER')          
+DB_PASSWORD = os.getenv('DB_PASSWORD')  
+DB_NAME = os.getenv('DB_NAME')          
