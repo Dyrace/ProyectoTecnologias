@@ -1,2 +1,9 @@
 Flask
 PyMySQL  
+WSGI
+MySQL
+SQL
+Jinja2
+HTML
+CSS
+Flask-PyMySQL
