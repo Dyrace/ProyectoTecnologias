@@ -1,6 +1,4 @@
-# Kevin González Gutiérrez.
-# Tecnologías Computacionales II.
-# 18/06/25
+
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file
 import mysql.connector

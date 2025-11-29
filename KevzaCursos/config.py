@@ -1,6 +1,4 @@
-# Kevin González Gutiérrez.
-# Tecnologías Computacionales II.
-# 18/06/25
+
 
 # Configuración de la conexión a la base de datos.
 

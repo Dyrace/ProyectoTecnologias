@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+
+  
+  app:
+    build: . 
+    container_name: kevza_app
+    
+    # Mapeo: 
+    ports:
+      - "80:5000"
+      
+   
+    environment:
+      DB_HOST: db                           
+      DB_USER: ${DB_USER}           
+      DB_PASSWORD: ${DB_PASSWORD}   
+      DB_NAME: ${DB_NAME}          
+      SECRET_KEY: ${SECRET_KEY}       
+      DEBUG_MODE: "False"
+      
+    depends_on:
+      - db
+
+  
+  db:
+    image: mysql:8.0 
+    container_name: kevza_db
+    
+    # Configuración de la DB (usa variables del .env)
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} 
+      MYSQL_DATABASE: ${DB_NAME}             
+      MYSQL_USER: ${DB_USER}                
+      MYSQL_PASSWORD: ${DB_PASSWORD}         
+      
+    
+    volumes:
+      - ./database/kevzacursos.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
